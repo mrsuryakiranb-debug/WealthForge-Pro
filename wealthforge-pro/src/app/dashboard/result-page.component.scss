@@ -1,0 +1,164 @@
+.result-page {
+  position: relative;
+  z-index: 3;
+  min-height: 100vh;
+  padding: 1.2rem;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.result-head,
+.result-shell {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(8px);
+}
+
+.result-head {
+  padding: 1rem 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.eyebrow {
+  margin: 0;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+h1 {
+  margin: 0.25rem 0;
+  font-size: clamp(1.25rem, 3vw, 1.8rem);
+}
+
+.subtext {
+  margin: 0;
+  color: #64748b;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  border-radius: 0.7rem;
+  padding: 0.54rem 0.78rem;
+  text-decoration: none;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.btn.primary {
+  color: #fff;
+  background: linear-gradient(120deg, #0284c7, #0f766e);
+}
+
+.btn.secondary {
+  color: #0f172a;
+  background: #e9f2ff;
+  border: 1px solid #c8dbf7;
+}
+
+.result-shell {
+  padding: 1rem;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.14rem;
+  font-weight: 700;
+}
+
+.summary {
+  margin: 0.35rem 0;
+  color: #475569;
+}
+
+.stamp {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+.empty {
+  margin-top: 0.8rem;
+  border: 1px solid #fed7aa;
+  background: #fff7ed;
+  border-radius: 0.75rem;
+  padding: 0.85rem;
+  color: #7c2d12;
+  font-weight: 600;
+}
+
+.text-card,
+.object-card {
+  margin-top: 0.8rem;
+  border: 1px solid #d7e8fb;
+  background: #f5fbff;
+  border-radius: 0.75rem;
+  padding: 0.85rem;
+}
+
+.list-grid {
+  margin-top: 0.8rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.item-card {
+  border: 1px solid #d5e3f3;
+  background: #fff;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+}
+
+.item-title {
+  margin: 0 0 0.5rem;
+  color: #0f172a;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: 0.6rem;
+  padding: 0.2rem 0;
+}
+
+.k {
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+.v {
+  color: #0f172a;
+  font-size: 0.84rem;
+  word-break: break-word;
+}
+
+@media (max-width: 900px) {
+  .result-page {
+    padding: 0.8rem;
+  }
+
+  .result-head {
+    flex-direction: column;
+  }
+
+  .list-grid {
+    grid-template-columns: 1fr;
+  }
+}

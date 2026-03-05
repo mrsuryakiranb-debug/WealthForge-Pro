@@ -1,0 +1,110 @@
+<div class="dashboard-page">
+  <aside class="sidebar">
+    <p class="product">WealthForge Pro</p>
+    <h2>{{ roleTitle }} Dashboard</h2>
+    <p class="tagline">Everything you need to operate your workspace in one place.</p>
+
+    <button class="logout-btn" (click)="logout()">Logout</button>
+    <a routerLink="/auth" class="switch-role">Switch role</a>
+  </aside>
+
+  <main class="workspace">
+    <section class="action-list">
+      <h3>Operations</h3>
+      <p class="list-subtitle">Select a module, then choose an action.</p>
+
+      <div class="group-tabs">
+        <button
+          class="group-tab"
+          *ngFor="let group of groupedActions"
+          [class.active]="group.group === selectedGroup"
+          (click)="selectGroup(group.group)"
+        >
+          {{ group.group }}
+        </button>
+      </div>
+
+      <div class="actions-grid">
+        <button
+          *ngFor="let action of currentGroupActions"
+          class="action-item"
+          [class.active]="selectedAction.id === action.id"
+          (click)="selectAction(action)"
+        >
+          <span class="dot"></span>
+          <span class="action-copy">
+            <strong>{{ action.title }}</strong>
+            <span>{{ action.summary }}</span>
+          </span>
+          <span class="arrow">&#8250;</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="action-panel" *ngIf="selectedAction">
+      <div class="panel-head">
+        <h3>{{ selectedAction.title }}</h3>
+        <p>{{ selectedAction.summary }}</p>
+      </div>
+
+      <p class="form-intro" *ngIf="(selectedAction.fields?.length ?? 0) > 0">Fill the details below.</p>
+      <div class="form-grid" *ngIf="(selectedAction.fields?.length ?? 0) > 0">
+        <label *ngFor="let field of selectedAction.fields">
+          {{ field.label }}
+          <textarea
+            *ngIf="field.type === 'textarea'; else fieldInput"
+            [(ngModel)]="formData[field.key]"
+            [placeholder]="field.placeholder || ''"
+            [required]="field.required || false"
+            [attr.minlength]="field.minLength ?? null"
+            [attr.maxlength]="field.maxLength ?? null"
+            rows="4"
+          ></textarea>
+          <ng-template #fieldInput>
+            <input
+              [(ngModel)]="formData[field.key]"
+              [type]="field.type === 'email' ? 'email' : (field.type === 'number' ? 'number' : 'text')"
+              [placeholder]="field.placeholder || ''"
+              [required]="field.required || false"
+              [attr.min]="field.min ?? null"
+              [attr.max]="field.max ?? null"
+              [attr.step]="field.step ?? (field.type === 'number' ? 1 : null)"
+              [attr.minlength]="field.minLength ?? null"
+              [attr.maxlength]="field.maxLength ?? null"
+            />
+          </ng-template>
+          <small *ngIf="field.helpText">{{ field.helpText }}</small>
+        </label>
+      </div>
+
+      <button class="run-btn" *ngIf="selectedAction.method !== 'GET' || (selectedAction.fields?.length ?? 0) > 0" (click)="runAction()" [disabled]="isLoading">
+        {{ isLoading ? 'Please wait...' : 'Continue' }}
+      </button>
+
+      <div *ngIf="dataState === 'empty'" class="result empty">
+        <p>No data found.</p>
+      </div>
+
+      <div *ngIf="dataState === 'text'" class="result data">
+        <p>{{ dataText }}</p>
+      </div>
+
+      <div *ngIf="dataState === 'object'" class="result data">
+        <div class="key-value" *ngFor="let item of dataObject | keyvalue">
+          <span class="key">{{ item.key }}</span>
+          <span class="value">{{ toDisplayValue(item.value) }}</span>
+        </div>
+      </div>
+
+      <div *ngIf="dataState === 'list'" class="result data">
+        <div class="data-card" *ngFor="let row of dataList; let i = index">
+          <p class="row-title">Item {{ i + 1 }}</p>
+          <div class="key-value" *ngFor="let item of row | keyvalue">
+            <span class="key">{{ item.key }}</span>
+            <span class="value">{{ toDisplayValue(item.value) }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

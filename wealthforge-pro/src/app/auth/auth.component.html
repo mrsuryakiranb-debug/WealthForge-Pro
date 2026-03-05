@@ -1,0 +1,60 @@
+<div class="auth-page">
+  <section class="hero">
+    <p class="pill">WealthForge Pro</p>
+    <h1>Plan Better. Invest Smarter. Grow Confidently.</h1>
+    <p class="hero-subtext">
+      A clean wealth management experience for investors, advisors, and admins to collaborate in one platform.
+    </p>
+    <div class="service-chips" aria-label="value points">
+      <span>Live portfolio insights</span>
+      <span>Role-based security</span>
+      <span>Advisor collaboration</span>
+      <span>Fast trade operations</span>
+    </div>
+  </section>
+
+  <section class="auth-card">
+    <ng-container *ngIf="!selectedRole">
+      <h2>Select Access Role</h2>
+      <p>Pick a workspace to continue.</p>
+      <div class="role-grid">
+        <button class="role-item" *ngFor="let role of roles" (click)="selectRole(role.key)">
+          <span class="title">{{ role.title }}</span>
+          <span class="desc">{{ role.desc }}</span>
+        </button>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="selectedRole">
+      <button class="back-btn" (click)="backToRoleSelect()">Back to roles</button>
+      <h2>{{ isLogin ? 'Login' : 'Register' }} - {{ selectedRole }}</h2>
+      <form (ngSubmit)="submit()">
+        <label *ngIf="!isLogin">
+          Full Name
+          <input type="text" name="name" [(ngModel)]="authData.name" required />
+        </label>
+        <label>
+          Email
+          <input type="email" name="email" [(ngModel)]="authData.email" required />
+        </label>
+        <label>
+          Password
+          <input type="password" name="password" [(ngModel)]="authData.password" required />
+        </label>
+        <label *ngIf="!isLogin">
+          Role
+          <input [value]="selectedRole" disabled />
+        </label>
+        <button type="submit" class="action-btn" [disabled]="isSubmitting || !canSubmit">
+          {{ isSubmitting ? 'Please wait...' : (isLogin ? 'Login to Dashboard' : 'Create Account') }}
+        </button>
+      </form>
+      <p class="form-msg error" *ngIf="showValidationHint">Complete all required fields with valid values to continue.</p>
+      <p class="form-msg success" *ngIf="successMessage">{{ successMessage }}</p>
+      <p class="form-msg error" *ngIf="errorMessage">{{ errorMessage }}</p>
+      <button class="switch-btn" (click)="toggleAuthMode()">
+        {{ isLogin ? 'Need an account? Register now' : 'Already registered? Login' }}
+      </button>
+    </ng-container>
+  </section>
+</div>
